@@ -29,7 +29,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
 @Component
-public class AuthenticationFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
 
   @Value("${jwt.secret-key}")
   private String secretKey;

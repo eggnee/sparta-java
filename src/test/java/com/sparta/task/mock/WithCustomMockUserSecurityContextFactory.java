@@ -29,7 +29,7 @@ public class WithCustomMockUserSecurityContextFactory implements
         List.of(authority)
     );
 
-    SecurityContext context = SecurityContextHolder.getContext();
+    SecurityContext context = SecurityContextHolder.createEmptyContext();
     context.setAuthentication(auth);
 
     return context;

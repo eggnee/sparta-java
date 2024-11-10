@@ -17,6 +17,11 @@ public class SignUpResponse {
   private Map<String, String> authorities = new HashMap<>();
 
   public static SignUpResponse fromEntity(User user) {
+
+    if (user == null) {
+      throw new IllegalArgumentException("User must not be null");
+    }
+
     Map<String, String> authorities = new HashMap<>();
     authorities.put("authorityName", user.getRole().toString());
     return new SignUpResponse(user.getUsername(), user.getNickname(), authorities);

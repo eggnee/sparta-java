@@ -19,3 +19,8 @@ Content-Type: application/json
 > {%
   client.global.set("token", response.headers.valueOf("Authorization"))
 %}
+
+### 테스트
+GET http://localhost:8080/api/test
+Content-Type: application/json
+Authorization: {{token}}
