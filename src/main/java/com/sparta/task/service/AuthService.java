@@ -35,7 +35,6 @@ public class AuthService {
     return SignUpResponse.fromEntity(userRepository.save(user));
   }
 
-
   public SignInResponse signIn(SignInRequest signInRequest) {
     User verifiedUser = verifyUser(signInRequest);
 
