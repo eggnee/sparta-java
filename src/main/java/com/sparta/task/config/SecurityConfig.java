@@ -1,6 +1,7 @@
 package com.sparta.task.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()  // 인증 없이 접근할 수 있는 경로
             .requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll()  // 인증 없이 접근할 수 있는 경로
+            .requestMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
         )
         .build();

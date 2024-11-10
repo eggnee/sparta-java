@@ -1,5 +1,6 @@
 package com.sparta.task.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -7,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +19,8 @@ public class JwtUtil {
   public static final String ID = "id";
   public static final String USERNAME = "username";
   public static final String ROLE = "role";
-  private final long TOKEN_TIME = 60 * 30 * 1000L;
+  private final long ACCESS_TOKEN_TIME = 60 * 30 * 1000L;
+
 
   @Value("${jwt.secret-key}")
   private String secretKey;
@@ -33,7 +36,7 @@ public class JwtUtil {
   }
 
   // 토큰 생성
-  public String createToken(Long userId, String username, String roleDetails) {
+  public String createAccessToken(Long userId, String username, String roleDetails) {
     Date issuedDate = new Date();
 
     return BEARER_PREFIX +
@@ -43,8 +46,16 @@ public class JwtUtil {
             .claim(ID, userId.toString())
             .claim(USERNAME, username)
             .claim(ROLE, roleDetails)
-            .expiration(new Date(issuedDate.getTime() + TOKEN_TIME))
-            .signWith(key)  // HMAC-SHA256 알고리즘을 명시적으로 지정하지 않아도 됨
+            .expiration(new Date(issuedDate.getTime() + ACCESS_TOKEN_TIME))
+            .signWith(key)
             .compact();
+  }
+
+  public Claims extractClaims(String token) {
+      return Jwts.parser()
+          .verifyWith((SecretKey) key)
+          .build()
+          .parseSignedClaims(token)
+          .getPayload();
   }
 }

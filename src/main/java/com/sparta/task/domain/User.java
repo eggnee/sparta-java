@@ -22,21 +22,24 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String username;
   @Column(nullable = false)
   private String password;
+  @Column(nullable = false, unique = true)
+  private String nickname;
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private Role role = Role.ROLE_USER;
 
-  private User(String username, String password) {
+  private User(String username, String password, String nickname) {
     this.username = username;
     this.password = password;
+    this.nickname = nickname;
   }
 
-  public static User of(String username, String encodedPassword) {
-    return new User(username, encodedPassword);
+  public static User of(String username, String encodedPassword, String nickname) {
+    return new User(username, encodedPassword, nickname);
   }
 
 }

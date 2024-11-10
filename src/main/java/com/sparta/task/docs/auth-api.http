@@ -4,7 +4,8 @@ Content-Type: application/json
 
 {
   "username": "user",
-  "password": "password"
+  "password": "password",
+  "nickname": "아린"
 }
 
 ### 일반 사용자 로그인 API

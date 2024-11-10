@@ -4,6 +4,7 @@ import static com.sparta.task.util.JwtUtil.BEARER_PREFIX;
 
 import com.sparta.task.domain.UserPrincipal;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -86,6 +87,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
           .build()
           .parseSignedClaims(token)
           .getPayload();
+    } catch (ExpiredJwtException e) {
+      throw new RuntimeException("Expired token: " + e.getMessage());
     } catch (Exception unexpectedException) {
       throw new RuntimeException(unexpectedException);
     }
@@ -94,7 +97,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
   private static final List<String> EXCLUDE_URLS = List.of(
       "/api/auth/sign-in",
       "/api/auth/sign-up",
-      "/api/auth/v3/api-docs"
+      "/h2-console"
   );
 
   @Override

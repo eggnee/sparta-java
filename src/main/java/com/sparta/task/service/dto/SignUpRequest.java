@@ -12,9 +12,10 @@ public class SignUpRequest {
 
   private String username;
   private String password;
+  private String nickname;
 
   public User toEntity(String encodedPassword) {
-    return User.of(username, encodedPassword);
+    return User.of(username, encodedPassword, nickname);
   }
 
 }
